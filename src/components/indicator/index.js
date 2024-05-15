@@ -49,7 +49,7 @@ export default class Indicator extends PureComponent {
 
     this.state = {
       progress: new Animated.Value(0),
-      hideAnimation: new Animated.Value(animating? 1 : 0),
+      hideAnimation: new Animated.Value(animating ? 1 : 0),
     };
   }
 
@@ -77,14 +77,22 @@ export default class Indicator extends PureComponent {
       let { hideAnimationDuration: duration } = this.props;
 
       Animated
-        .timing(hideAnimation, { toValue: animating? 1 : 0, duration })
+        .timing(hideAnimation, {
+          toValue: animating ? 1 : 0,
+          useNativeDriver: true,
+          duration,
+        })
         .start();
     }
   }
 
   startAnimation() {
     let { progress } = this.state;
-    let { interaction, animationEasing, animationDuration } = this.props;
+    let {
+      interaction,
+      animationEasing,
+      animationDuration,
+    } = this.props;
 
     if (0 !== this.animationState) {
       return;
@@ -135,7 +143,10 @@ export default class Indicator extends PureComponent {
 
   resumeAnimation() {
     let { progress } = this.state;
-    let { interaction, animationDuration } = this.props;
+    let {
+      interaction,
+      animationDuration,
+    } = this.props;
 
     if (0 !== this.animationState) {
       return;
@@ -163,10 +174,17 @@ export default class Indicator extends PureComponent {
 
   renderComponent(item, index) {
     let { progress } = this.state;
-    let { renderComponent, count } = this.props;
+    let {
+      renderComponent,
+      count,
+    } = this.props;
 
     if ('function' === typeof renderComponent) {
-      return renderComponent({ index, count, progress });
+      return renderComponent({
+        index,
+        count,
+        progress,
+      });
     }
 
     return null;
@@ -174,7 +192,11 @@ export default class Indicator extends PureComponent {
 
   render() {
     let { hideAnimation } = this.state;
-    let { count, hidesWhenStopped, ...props } = this.props;
+    let {
+      count,
+      hidesWhenStopped,
+      ...props
+    } = this.props;
 
     if (hidesWhenStopped) {
       props.style = []
